@@ -315,7 +315,31 @@
         <a href="#" onclick="showAlert('Portfolio')">Portfolio</a>
       </div>
 
-      <script src="script.js"></script>
+      <script>
+        document
+          .getElementById("form-signin")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const username = document
+              .getElementById("input-username")
+              .value.trim();
+            const password = document.getElementById("input-password").value;
+
+            let users = JSON.parse(localStorage.getItem("users") || "[]");
+            const user = users.find(
+              (u) =>
+                (u.username === username || u.email === username) &&
+                u.password === password
+            );
+
+            if (user) {
+              alert("Login successful!");
+            } else {
+              alert("Invalid username/email or password.");
+            }
+          });
+      </script>
     </body>
   </html>
 </html>

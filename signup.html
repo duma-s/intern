@@ -278,7 +278,7 @@
               type="text"
               class="form-input"
               placeholder="✉️ Email"
-              id="input-username"
+              id="input-email"
               required
             />
             <input
@@ -301,7 +301,7 @@
               type="password"
               class="form-input"
               placeholder="✅Confirm Password"
-              id="input-password"
+              id="confirm-password"
               required
             />
           </div>
@@ -328,7 +328,55 @@
         <a href="#" onclick="showAlert('Portfolio')">Portfolio</a>
       </div>
 
-      <script src="script.js"></script>
+      <script>
+        document
+          .getElementById("form-signin")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const email = document
+              .querySelector('input[placeholder="✉️ Email"]')
+              .value.trim();
+            const username = document
+              .querySelector('input[placeholder="👤 Username"]')
+              .value.trim();
+            const password = document.querySelector(
+              'input[placeholder="🔒 Password"]'
+            ).value;
+            const confirmPassword = document.querySelector(
+              'input[placeholder="✅Confirm Password"]'
+            ).value;
+            const termsAccepted =
+              document.getElementById("checkbox-remember").checked;
+
+            // Basic validation
+            if (!email || !username || !password || !confirmPassword) {
+              alert("Please fill in all fields.");
+              return;
+            }
+            if (password !== confirmPassword) {
+              alert("Passwords do not match.");
+              return;
+            }
+            if (!termsAccepted) {
+              alert("You must accept the Terms & Conditions.");
+              return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("users") || "[]");
+            if (users.find((u) => u.email === email)) {
+              alert("Email already registered.");
+              return;
+            }
+            users.push({ email, username, password });
+            localStorage.setItem("users", JSON.stringify(users));
+            alert(
+              "You have successfully created an account! You can sign in now."
+            );
+            window.location.href = "index.html";
+          });
+      </script>
     </body>
   </html>
 </html>
